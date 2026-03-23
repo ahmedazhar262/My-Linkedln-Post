@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LinkedIn Article – AWS by Mohammad Azharuddin</title>
+<link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --li-blue:#0a66c2;
+  --li-blue-dk:#004182;
+  --li-blue-lt:#e8f0fb;
+  --li-green:#057642;
+  --li-bg:#f3f2ef;
+  --li-white:#ffffff;
+  --li-border:#e0ddd8;
+  --li-text:#000000e6;
+  --li-muted:#00000099;
+  --shadow:0 0 0 1px rgba(0,0,0,.08),0 2px 8px rgba(0,0,0,.06);
+  --radius:10px;
+  --gold:#C8973A;
+}
+
+html{font-size:15px;scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--li-bg);
+  color:var(--li-text);
+  min-height:100vh;
+}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--li-white);
+  border-bottom:1px solid var(--li-border);
+  padding:0 24px;
+  display:flex;align-items:center;gap:10px;
+  height:52px;
+}
+.nav-logo{
+  font-weight:800;font-size:1.5rem;color:var(--li-blue);
+  letter-spacing:-.02em;display:flex;align-items:center;gap:6px;
+}
+.nav-logo svg{width:34px;height:34px}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto}
+.nav-link{
+  display:flex;flex-direction:column;align-items:center;
+  padding:6px 14px;font-size:.7rem;color:var(--li-muted);
+  cursor:pointer;border:none;background:none;gap:2px;
+  text-decoration:none;
+}
+.nav-link .icon{font-size:1.2rem}
+.nav-link:hover{color:var(--li-text)}
+.nav-btn{
+  padding:6px 18px;border-radius:20px;
+  font-size:.85rem;font-weight:600;cursor:pointer;
+  border:1px solid var(--li-blue);
+  color:var(--li-blue);background:transparent;
+}
+.nav-btn:hover{background:var(--li-blue-lt)}
+
+/* ── PAGE LAYOUT ── */
+.page{
+  max-width:1080px;margin:0 auto;
+  padding:28px 16px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 300px;
+  gap:20px;align-items:start;
+}
+
+/* ── ARTICLE CARD ── */
+.article-card{
+  background:var(--li-white);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+/* Hero */
+.hero{
+  width:100%;height:320px;
+  background:linear-gradient(135deg, #0a66c2 0%, #0e4f9e 35%, #1a2f5e 70%, #0d1b2a 100%);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.hero-glow{
+  position:absolute;
+  width:400px;height:400px;
+  background:radial-gradient(circle, rgba(200,151,58,.25) 0%, transparent 70%);
+  top:-80px;right:-80px;
+}
+.hero-glow2{
+  position:absolute;
+  width:300px;height:300px;
+  background:radial-gradient(circle, rgba(10,102,194,.4) 0%, transparent 70%);
+  bottom:-60px;left:-60px;
+}
+.hero-content{
+  position:relative;z-index:1;
+  text-align:center;padding:24px;
+}
+.hero-tag{
+  display:inline-block;
+  background:rgba(200,151,58,.2);
+  border:1px solid rgba(200,151,58,.4);
+  color:var(--gold);
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;padding:5px 14px;border-radius:20px;
+  margin-bottom:16px;
+}
+.hero-title{
+  font-family:'Merriweather',serif;
+  font-size:2rem;font-weight:700;color:#fff;
+  line-height:1.25;letter-spacing:-.02em;
+  max-width:560px;margin:0 auto 14px;
+}
+.hero-sub{
+  font-size:.88rem;color:rgba(255,255,255,.7);
+  max-width:440px;margin:0 auto;
+  line-height:1.6;
+}
+
+/* Author bar */
+.author-bar{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 32px;
+  border-bottom:1px solid var(--li-border);
+}
+.author-av{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,#0a66c2,#1e3a5f);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.author-name{font-weight:700;font-size:.95rem;color:var(--li-blue)}
+.author-name:hover{text-decoration:underline;cursor:pointer}
+.author-role{font-size:.78rem;color:var(--li-muted);margin-top:2px}
+.author-date{font-size:.75rem;color:var(--li-muted);margin-top:2px}
+.follow-btn{
+  margin-left:auto;padding:6px 18px;border-radius:20px;
+  background:transparent;border:1.5px solid var(--li-blue);
+  color:var(--li-blue);font-size:.82rem;font-weight:700;cursor:pointer;
+}
+.follow-btn:hover{background:var(--li-blue-lt)}
+
+/* Article body */
+.article-body{
+  padding:32px 40px 40px;
+  max-width:100%;
+}
+
+/* Typography */
+.article-body p{
+  font-family:'Merriweather',serif;
+  font-size:.95rem;line-height:1.9;
+  color:#1a1a1a;margin-bottom:20px;
+}
+.article-body h2{
+  font-family:'Merriweather',serif;
+  font-size:1.35rem;font-weight:700;
+  color:#0a1628;margin:36px 0 14px;
+  line-height:1.3;
+}
+.article-body h3{
+  font-family:'DM Sans',sans-serif;
+  font-size:1.05rem;font-weight:700;
+  color:#0a1628;margin:24px 0 10px;
+}
+
+/* Hook opener */
+.hook{
+  font-family:'Merriweather',serif;
+  font-size:1.15rem;font-weight:700;
+  color:#0a1628;line-height:1.6;
+  margin-bottom:20px;
+  padding-bottom:20px;
+  border-bottom:2px solid var(--li-border);
+}
+
+/* Pull quote */
+.pull-quote{
+  border-left:4px solid var(--li-blue);
+  background:var(--li-blue-lt);
+  padding:18px 24px;border-radius:0 10px 10px 0;
+  margin:28px 0;
+}
+.pull-quote p{
+  font-family:'Merriweather',serif;
+  font-size:1.05rem;font-style:italic;
+  color:#0a1628;margin:0;line-height:1.7;
+}
+.pull-quote cite{
+  display:block;margin-top:8px;
+  font-size:.78rem;color:var(--li-muted);
+  font-style:normal;font-weight:600;
+}
+
+/* Stat cards */
+.stat-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;margin:28px 0;
+}
+.stat-card{
+  background:#f8faff;border:1px solid #d0e2f7;
+  border-radius:10px;padding:18px 14px;text-align:center;
+  transition:transform .2s,box-shadow .2s;
+}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(10,102,194,.12)}
+.stat-num{
+  font-family:'Merriweather',serif;
+  font-size:1.8rem;font-weight:700;color:var(--li-blue);
+  display:block;line-height:1;
+}
+.stat-label{
+  font-size:.75rem;color:var(--li-muted);
+  margin-top:6px;display:block;line-height:1.4;
+}
+
+/* Numbered list */
+.num-list{counter-reset:steps;margin:20px 0;}
+.num-item{
+  display:grid;grid-template-columns:40px 1fr;
+  gap:14px;margin-bottom:18px;
+  align-items:start;
+}
+.num-circle{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--li-blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.9rem;flex-shrink:0;
+  font-family:'DM Sans',sans-serif;
+}
+.num-content h4{
+  font-family:'DM Sans',sans-serif;
+  font-weight:700;font-size:.95rem;color:#0a1628;margin-bottom:4px;
+}
+.num-content p{
+  font-family:'DM Sans',sans-serif;
+  font-size:.86rem;line-height:1.65;
+  color:#374151;margin:0;
+}
+
+/* Code block */
+.code-block{
+  background:#0d1117;border-radius:10px;
+  padding:20px 24px;margin:24px 0;
+  overflow-x:auto;
+}
+.code-block pre{
+  font-family:'Courier New',monospace;
+  font-size:.82rem;line-height:1.7;
+  color:#e6edf3;white-space:pre;
+}
+.code-label{
+  font-size:.7rem;color:#8b949e;
+  text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:10px;font-family:'DM Sans',sans-serif;
+  display:block;
+}
+.c-green{color:#7ee787}
+.c-blue{color:#79c0ff}
+.c-orange{color:#ffa657}
+.c-gray{color:#8b949e}
+.c-white{color:#e6edf3}
+
+/* Highlight box */
+.highlight-box{
+  background:linear-gradient(135deg,#0a66c2,#0e4f9e);
+  border-radius:12px;padding:22px 26px;
+  margin:28px 0;color:#fff;
+}
+.highlight-box h3{
+  color:#fff;margin:0 0 10px;font-size:1rem;
+}
+.highlight-box p{
+  font-family:'DM Sans',sans-serif;
+  color:rgba(255,255,255,.88);font-size:.88rem;
+  line-height:1.65;margin:0;
+}
+.highlight-box .gold{color:var(--gold);font-weight:700}
+
+/* Warning/tip box */
+.tip-box{
+  background:var(--gold-lt,#fef9ee);
+  border:1px solid #f0d08a;
+  border-left:4px solid var(--gold);
+  border-radius:0 10px 10px 0;
+  padding:16px 20px;margin:24px 0;
+}
+.tip-box .tip-title{
+  font-weight:700;color:#92600A;font-size:.85rem;
+  margin-bottom:5px;font-family:'DM Sans',sans-serif;
+}
+.tip-box p{
+  font-family:'DM Sans',sans-serif;
+  font-size:.86rem;color:#78450a;
+  line-height:1.65;margin:0;
+}
+
+/* Services grid */
+.services-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin:20px 0;
+}
+.service-card{
+  border:1px solid var(--li-border);border-radius:10px;
+  padding:16px;transition:border-color .2s,box-shadow .2s;
+}
+.service-card:hover{border-color:var(--li-blue);box-shadow:0 4px 16px rgba(10,102,194,.1)}
+.service-icon{font-size:1.5rem;margin-bottom:8px;display:block}
+.service-name{font-weight:700;font-size:.9rem;color:#0a1628;margin-bottom:4px}
+.service-desc{font-size:.8rem;color:var(--li-muted);line-height:1.5;font-family:'DM Sans',sans-serif}
+
+/* CTA */
+.cta-box{
+  background:linear-gradient(135deg,#0d1b2a,#1a3a5c);
+  border-radius:14px;padding:28px 32px;
+  margin:36px 0 0;text-align:center;
+}
+.cta-title{
+  font-family:'Merriweather',serif;
+  font-size:1.3rem;font-weight:700;color:#fff;
+  margin-bottom:10px;
+}
+.cta-sub{
+  font-size:.88rem;color:rgba(255,255,255,.75);
+  margin-bottom:20px;line-height:1.6;
+}
+.cta-btn{
+  display:inline-block;padding:11px 28px;
+  background:var(--gold);color:#0d1b2a;
+  border-radius:24px;font-weight:700;font-size:.9rem;
+  border:none;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(200,151,58,.35)}
+
+/* Tags */
+.article-tags{
+  display:flex;flex-wrap:wrap;gap:8px;
+  padding:20px 40px;border-top:1px solid var(--li-border);
+}
+.tag{
+  background:var(--li-blue-lt);color:var(--li-blue);
+  font-size:.75rem;font-weight:600;
+  padding:5px 12px;border-radius:20px;cursor:pointer;
+}
+.tag:hover{background:#d0e2f7}
+
+/* Reactions bar */
+.reactions-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 32px;border-top:1px solid var(--li-border);
+  flex-wrap:wrap;gap:10px;
+}
+.reactions{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--li-muted)}
+.reaction-icons{display:flex;gap:-4px}
+.reaction-icons span{font-size:1.1rem}
+.reaction-count{font-size:.82rem;color:var(--li-muted);margin-left:4px}
+.reaction-count:hover{text-decoration:underline;cursor:pointer;color:var(--li-blue)}
+.action-btns{display:flex;gap:4px}
+.action-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:6px;border:none;
+  background:transparent;font-size:.82rem;font-weight:600;
+  color:var(--li-muted);cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.action-btn:hover{background:#f3f2ef;color:var(--li-text)}
+.action-btn .icon{font-size:1.1rem}
+
+/* ── RIGHT SIDEBAR ── */
+.sidebar{}
+.sidebar-card{
+  background:var(--li-white);border-radius:var(--radius);
+  box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;
+}
+.sidebar-head{
+  padding:14px 18px;border-bottom:1px solid var(--li-border);
+  font-weight:700;font-size:.9rem;
+}
+.sidebar-body{padding:14px 18px}
+
+.author-sidebar{text-align:center;padding:20px 18px}
+.auth-av{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,#0a66c2,#1e3a5f);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;font-weight:700;color:#fff;
+  margin:0 auto 12px;
+}
+.auth-name{font-weight:700;font-size:1rem;color:var(--li-blue);margin-bottom:4px}
+.auth-name:hover{text-decoration:underline;cursor:pointer}
+.auth-role{font-size:.8rem;color:var(--li-muted);margin-bottom:12px;line-height:1.4}
+.auth-stats{
+  display:flex;justify-content:center;gap:20px;
+  margin-bottom:14px;padding-top:12px;border-top:1px solid var(--li-border);
+}
+.auth-stat-num{font-weight:700;font-size:1rem;color:var(--li-text)}
+.auth-stat-lbl{font-size:.7rem;color:var(--li-muted)}
+.follow-btn-lg{
+  width:100%;padding:9px;border-radius:20px;
+  background:var(--li-blue);color:#fff;
+  font-weight:700;font-size:.85rem;border:none;cursor:pointer;
+}
+.follow-btn-lg:hover{background:var(--li-blue-dk)}
+
+.related-item{
+  padding:12px 0;border-bottom:1px solid var(--li-border);
+  cursor:pointer;
+}
+.related-item:last-child{border-bottom:none}
+.related-item:hover .rel-title{color:var(--li-blue);text-decoration:underline}
+.rel-title{font-weight:600;font-size:.85rem;color:var(--li-text);line-height:1.4;margin-bottom:4px}
+.rel-meta{font-size:.75rem;color:var(--li-muted)}
+
+.skill-tag-list{display:flex;flex-wrap:wrap;gap:6px;padding:14px 18px}
+.skill-tag{
+  background:#f3f2ef;border:1px solid var(--li-border);
+  color:var(--li-text);font-size:.75rem;font-weight:500;
+  padding:4px 12px;border-radius:20px;cursor:pointer;
+}
+.skill-tag:hover{background:var(--li-blue-lt);border-color:var(--li-blue);color:var(--li-blue)}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--li-border);margin:8px 0}
+
+/* ── ANIMATION ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.article-card{animation:fadeUp .5s ease both}
+.sidebar-card{animation:fadeUp .5s ease both}
+.sidebar-card:nth-child(2){animation-delay:.1s}
+.sidebar-card:nth-child(3){animation-delay:.2s}
+
+@media(max-width:860px){
+  .page{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:1fr 1fr}
+  .services-grid{grid-template-columns:1fr}
+  .article-body{padding:24px 22px 32px}
+  .hero-title{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div style="width:34px;height:34px;background:var(--li-blue);border-radius:5px;display:flex;align-items:center;justify-content:center">
+      <svg viewBox="0 0 34 34" fill="none" width="22" height="22"><path d="M7 13h4v14H7V13zm2-6.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM15 13h3.8v1.9h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.75 2.65 4.75 6.1V27H23.6v-7.15c0-1.7-.03-3.9-2.37-3.9-2.38 0-2.74 1.85-2.74 3.77V27H15V13z" fill="white"/></svg>
+    </div>
+    in
+  </div>
+  <div class="nav-search">🔍 &nbsp;Search</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#"><span class="icon">🏠</span><span style="font-size:.7rem">Home</span></a>
+    <a class="nav-link" href="#"><span class="icon">👥</span><span style="font-size:.7rem">Network</span></a>
+    <a class="nav-link" href="#"><span class="icon">💼</span><span style="font-size:.7rem">Jobs</span></a>
+    <a class="nav-link" href="#"><span class="icon">💬</span><span style="font-size:.7rem">Messaging</span></a>
+    <a class="nav-link" href="#"><span class="icon">🔔</span><span style="font-size:.7rem">Notifications</span></a>
+    <button class="nav-btn">Write article</button>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- ARTICLE -->
+  <div class="article-card">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-glow2"></div>
+      <div class="hero-content">
+        <div class="hero-tag">☁️ Cloud Computing · AWS</div>
+        <div class="hero-title">I Cut Our Cloud Bill by 30% in 60 Days Using AWS. Here's Exactly How I Did It.</div>
+        <div class="hero-sub">A real-world developer's guide to AWS — from zero to production, with lessons learned the hard way.</div>
+      </div>
+    </div>
+
+    <!-- Author bar -->
+    <div class="author-bar">
+      <div class="author-av">MA</div>
+      <div>
+        <div class="author-name">Mohammad Azharuddin</div>
+        <div class="author-role">Java Developer · AWS Cloud · Full-Stack | Open to Software Developer Roles in Saudi Arabia & Gulf</div>
+        <div class="author-date">March 23, 2026 &nbsp;·&nbsp; 8 min read &nbsp;·&nbsp; 🌐 Public</div>
+      </div>
+      <button class="follow-btn">+ Follow</button>
+    </div>
+
+    <!-- Article Body -->
+    <div class="article-body">
+
+      <!-- HOOK -->
+      <div class="hook">
+        My manager gave me one task: "Reduce our server costs. We're overspending."<br><br>
+        60 days later, our monthly AWS bill dropped by 30%.<br>
+        No magic. No shortcuts. Just the right AWS services, used the right way.<br><br>
+        Here is everything I did — and what you can steal for your own projects.
+      </div>
+
+      <!-- SECTION 1 -->
+      <h2>First, Why AWS? (And Why It's Not Just Hype)</h2>
+      <p>When I first heard "move everything to AWS," I thought it was one of those corporate buzzwords that doesn't actually mean anything. But after working with it hands-on at Infoseek Technologies, I understood why every serious company — from startups to enterprises — is on it.</p>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <span class="stat-num">$91B</span>
+          <span class="stat-label">AWS annual revenue — the world's #1 cloud platform</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">33%</span>
+          <span class="stat-label">of all internet cloud infrastructure runs on AWS</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">200+</span>
+          <span class="stat-label">services available — compute, storage, AI, databases & more</span>
+        </div>
+      </div>
+
+      <p>AWS is not just storage and servers. It is an entire ecosystem that lets developers build, deploy, and scale applications without ever touching physical hardware. And once you understand it — it changes how you think about software forever.</p>
+
+      <!-- SECTION 2 -->
+      <h2>The 3 AWS Services Every Developer Must Know First</h2>
+      <p>When I started, I made the mistake of trying to learn everything at once. 200+ services is overwhelming. So here is the truth: <strong>start with these 3, and you can build almost anything.</strong></p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-icon">🖥️</span>
+          <div class="service-name">EC2 — Elastic Compute Cloud</div>
+          <div class="service-desc">Your virtual server in the cloud. Run any application, any OS, at any scale. Think of it as your computer — but in Amazon's data center, accessible from anywhere on earth.</div>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🪣</span>
+          <div class="service-name">S3 — Simple Storage Service</div>
+          <div class="service-desc">Store anything — files, images, videos, backups — with 99.999999999% durability. I moved all our static assets to S3 and our storage cost dropped immediately.</div>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">⚡</span>
+          <div class="service-name">Lambda — Serverless Functions</div>
+          <div class="service-desc">Run code without managing servers. You pay only for the milliseconds your code runs. This single service eliminated 3 of our always-on EC2 instances.</div>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🌐</span>
+          <div class="service-name">CloudFront — CDN</div>
+          <div class="service-desc">Deliver content at lightning speed by caching it in 400+ global locations. Combined with S3, it made our web app load 60% faster for users across the globe.</div>
+        </div>
+      </div>
+
+      <!-- PULL QUOTE -->
+      <div class="pull-quote">
+        <p>"Stop paying for servers that run 24/7 when your workload only needs 4 hours a day. Lambda changed everything for us — we paid for execution time, not idle time."</p>
+        <cite>— Mohammad Azharuddin, from real production experience</cite>
+      </div>
+
+      <!-- SECTION 3 -->
+      <h2>The Exact Steps I Took to Cut Costs by 30%</h2>
+      <p>Here is my honest migration playbook. No fluff. Step by step, exactly what I did.</p>
+
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div class="num-content">
+            <h4>Audit Everything First</h4>
+            <p>I ran AWS Cost Explorer on Day 1. The results were shocking — we had 6 EC2 instances running 24/7, but only 2 were actually being used at capacity. The rest were ghost servers eating money every hour.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">2</div>
+          <div class="num-content">
+            <h4>Right-size EC2 Instances</h4>
+            <p>We were running t3.large instances where t3.small was enough. Downgrading to the correct instance type — based on actual CPU and memory metrics — saved 18% alone. Always match your instance to your actual workload.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">3</div>
+          <div class="num-content">
+            <h4>Move Static Assets to S3 + CloudFront</h4>
+            <p>Images, CSS, JavaScript files — all moved from EC2 disk storage to S3. Then we put CloudFront in front. Storage cost dropped. Bandwidth cost dropped. Page load time improved. Three wins from one change.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">4</div>
+          <div class="num-content">
+            <h4>Replace Always-On Services with Lambda</h4>
+            <p>We had 3 microservices that ran 24/7 but received requests only occasionally. Converted them to Lambda functions. From paying for 3 full EC2 instances to paying for actual function invocations. The difference was dramatic.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">5</div>
+          <div class="num-content">
+            <h4>Set Billing Alerts Immediately</h4>
+            <p>Use AWS Budgets to set alerts at 80% and 100% of your monthly target. This is non-negotiable. Cloud costs can spike overnight if something goes wrong. Alerts saved us from a surprise bill twice.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CODE BLOCK -->
+      <h3>Deploy to S3 in Under 5 Minutes — Real Command</h3>
+      <p>Stop reading theory. Here is the actual AWS CLI command I use to deploy our static frontend to S3:</p>
+
+      <div class="code-block">
+        <span class="code-label"># terminal — AWS CLI</span>
+        <pre><span class="c-gray"># Step 1: Build your project</span>
+<span class="c-green">npm run build</span>
+
+<span class="c-gray"># Step 2: Sync your build folder to S3</span>
+<span class="c-blue">aws s3 sync</span> <span class="c-orange">./dist</span> <span class="c-green">s3://your-bucket-name</span> \
+  <span class="c-orange">--delete</span> \
+  <span class="c-orange">--cache-control</span> <span class="c-white">"max-age=31536000"</span>
+
+<span class="c-gray"># Step 3: Invalidate CloudFront cache</span>
+<span class="c-blue">aws cloudfront create-invalidation</span> \
+  <span class="c-orange">--distribution-id</span> <span class="c-green">YOUR_DIST_ID</span> \
+  <span class="c-orange">--paths</span> <span class="c-white">"/*"</span>
+
+<span class="c-gray"># Done. Your app is live globally in seconds.</span></pre>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡 Pro Tip</div>
+        <p>Add this to your CI/CD pipeline (GitHub Actions or GitLab CI) and your deployment becomes fully automatic on every git push. This is exactly how I cut our deployment time from 2 hours to 15 minutes.</p>
+      </div>
+
+      <!-- SECTION 4 -->
+      <h2>AWS and Saudi Arabia's Vision 2030 — Why This Matters Right Now</h2>
+      <p>If you are a developer in India looking at Saudi Arabia — or already in the Gulf — understanding AWS is not optional anymore. It is the entry ticket.</p>
+
+      <div class="highlight-box">
+        <h3>🇸🇦 AWS in Saudi Arabia</h3>
+        <p>AWS launched its <span class="gold">Middle East (UAE) Region</span> and is expanding aggressively into Saudi Arabia as part of Vision 2030's digital transformation agenda. Saudi Aramco, STC, NEOM, and hundreds of Saudi startups are migrating to AWS right now. <span class="gold">Developers who know AWS are being hired at premium salaries across Riyadh, Jeddah, and NEOM.</span></p>
+      </div>
+
+      <p>I personally learned AWS because I saw this coming. When you can show a Saudi employer that you have <strong>real production AWS experience</strong> — not just a certificate, but actual cost savings and deployments — you move to the top of the pile immediately.</p>
+
+      <!-- SECTION 5 -->
+      <h2>The 5 AWS Certifications Worth Getting in 2026</h2>
+      <p>Certifications alone won't get you hired. But combined with real experience, they signal credibility to hiring managers who scan 200 resumes a day. Here is what I recommend, in order:</p>
+
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle" style="background:#f59e0b;color:#0d1b2a">①</div>
+          <div class="num-content">
+            <h4>AWS Cloud Practitioner — Start Here</h4>
+            <p>The foundation. No coding required. Covers core concepts, pricing, and the AWS ecosystem. Get this first to understand the vocabulary. Takes 2–4 weeks of study. Cost: $100.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle" style="background:#0a66c2">②</div>
+          <div class="num-content">
+            <h4>AWS Solutions Architect Associate — The Career Changer</h4>
+            <p>This is the one employers care about most. It proves you can design real cloud architectures. Demand for this certification in Saudi Arabia has grown 3x in the last 2 years.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle" style="background:#057642">③</div>
+          <div class="num-content">
+            <h4>AWS Developer Associate — For Software Developers</h4>
+            <p>Focused on building and deploying applications on AWS. Covers Lambda, DynamoDB, API Gateway, CodePipeline. Perfect if you are coming from a development background like me.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 6 -->
+      <h2>3 Mistakes Every AWS Beginner Makes</h2>
+      <p>I made all of these. Learn from me, not from your own expensive mistakes.</p>
+
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle" style="background:#dc2626">✕</div>
+          <div class="num-content">
+            <h4>Leaving Resources Running After Testing</h4>
+            <p>You spin up an EC2 instance to test something. You forget to stop it. You get a $200 bill at the end of the month. Always set a billing alarm. Always stop resources when you are done.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle" style="background:#dc2626">✕</div>
+          <div class="num-content">
+            <h4>Using Root Account for Everything</h4>
+            <p>Never use your AWS root account for daily work. Create an IAM user with only the permissions it needs. If credentials get leaked, limited permissions = limited damage.</p>
+          </div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle" style="background:#dc2626">✕</div>
+          <div class="num-content">
+            <h4>Ignoring the Free Tier</h4>
+            <p>AWS gives you 12 months of free tier access — EC2 t2.micro, 5GB S3, 1 million Lambda requests per month. Most beginners don't use it. Start there. Build real projects. For free.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINAL SECTION -->
+      <h2>My Honest Advice If You Are Starting AWS Today</h2>
+
+      <div class="pull-quote">
+        <p>"Don't learn AWS to pass a certificate exam. Learn AWS by building something real. The certificate will follow. The experience is what gets you hired."</p>
+        <cite>— My honest advice after 2 years of production AWS experience</cite>
+      </div>
+
+      <p>Start with the free tier. Build a simple web app. Host it on S3. Put CloudFront in front of it. Connect a Lambda function. Store data in DynamoDB. You now have a full-stack serverless application — for zero cost — that you can show any employer in the world.</p>
+
+      <p>That is exactly how I got comfortable with AWS. Not by reading documentation for weeks. By doing.</p>
+
+      <p>If you are a developer in India targeting the Gulf market — <strong>AWS knowledge is your competitive advantage right now.</strong> Saudi Arabia is spending billions on cloud infrastructure. The demand for developers who can actually build and deploy on AWS is outpacing supply every single month.</p>
+
+      <p>The question is not whether you should learn AWS. The question is how fast you can start.</p>
+
+      <!-- CTA -->
+      <div class="cta-box">
+        <div class="cta-title">Are you learning AWS or already working with it?</div>
+        <div class="cta-sub">Drop a comment below with where you are in your cloud journey. I read and respond to every comment. Let's build this community together.</div>
+        <button class="cta-btn">💬 Share Your AWS Story</button>
+      </div>
+
+    </div><!-- /article-body -->
+
+    <!-- Tags -->
+    <div class="article-tags">
+      <span class="tag">#AWS</span>
+      <span class="tag">#CloudComputing</span>
+      <span class="tag">#SoftwareDevelopment</span>
+      <span class="tag">#Java</span>
+      <span class="tag">#SaudiArabia</span>
+      <span class="tag">#Vision2030</span>
+      <span class="tag">#TechCareers</span>
+      <span class="tag">#DevOps</span>
+      <span class="tag">#Programming</span>
+      <span class="tag">#CareerGrowth</span>
+    </div>
+
+    <!-- Reactions -->
+    <div class="reactions-bar">
+      <div class="reactions">
+        <div class="reaction-icons"><span>👍</span><span>❤️</span><span>🎉</span><span>🧠</span></div>
+        <span class="reaction-count">847 reactions</span>
+        <span style="color:var(--li-border);margin:0 4px">·</span>
+        <span class="reaction-count">124 comments</span>
+        <span style="color:var(--li-border);margin:0 4px">·</span>
+        <span class="reaction-count">312 reposts</span>
+      </div>
+      <div class="action-btns">
+        <button class="action-btn"><span class="icon">👍</span> Like</button>
+        <button class="action-btn"><span class="icon">💬</span> Comment</button>
+        <button class="action-btn"><span class="icon">🔁</span> Repost</button>
+        <button class="action-btn"><span class="icon">📤</span> Send</button>
+      </div>
+    </div>
+
+  </div><!-- /article-card -->
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- Author card -->
+    <div class="sidebar-card">
+      <div class="author-sidebar">
+        <div class="auth-av">MA</div>
+        <div class="auth-name">Mohammad Azharuddin</div>
+        <div class="auth-role">Java Developer · AWS · Full-Stack<br>Open to Saudi Arabia & Gulf Roles</div>
+        <div class="auth-stats">
+          <div>
+            <div class="auth-stat-num">253</div>
+            <div class="auth-stat-lbl">Followers</div>
+          </div>
+          <div>
+            <div class="auth-stat-num">231</div>
+            <div class="auth-stat-lbl">Connections</div>
+          </div>
+        </div>
+        <button class="follow-btn-lg">+ Follow</button>
+      </div>
+    </div>
+
+    <!-- More from author -->
+    <div class="sidebar-card">
+      <div class="sidebar-head">More from Mohammad</div>
+      <div class="sidebar-body">
+        <div class="related-item">
+          <div class="rel-title">How I Improved Database Query Speed by 40% — The Indexing Playbook</div>
+          <div class="rel-meta">SQL · 6 min read</div>
+        </div>
+        <div class="related-item">
+          <div class="rel-title">CI/CD From Scratch: How I Cut Deployment Time by 87% Using Git + Docker</div>
+          <div class="rel-meta">DevOps · 7 min read</div>
+        </div>
+        <div class="related-item">
+          <div class="rel-title">Why Saudi Arabia is the Best Destination for Indian Software Developers in 2026</div>
+          <div class="rel-meta">Career · 5 min read</div>
+        </div>
+        <div class="related-item">
+          <div class="rel-title">I Built an AI That Detects Humans in Real-Time at 30 FPS. Here's How.</div>
+          <div class="rel-meta">AI/ML · Python · 9 min read</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related topics -->
+    <div class="sidebar-card">
+      <div class="sidebar-head">Related Topics</div>
+      <div class="skill-tag-list">
+        <span class="skill-tag">AWS</span>
+        <span class="skill-tag">Cloud Computing</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">DevOps</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">Saudi Arabia Tech</span>
+        <span class="skill-tag">Vision 2030</span>
+        <span class="skill-tag">Software Engineering</span>
+        <span class="skill-tag">Career Growth</span>
+      </div>
+    </div>
+
+    <!-- Profile URL -->
+    <div class="sidebar-card">
+      <div class="sidebar-body" style="text-align:center">
+        <div style="font-size:.78rem;color:var(--li-muted);margin-bottom:6px">Connect with me</div>
+        <div style="font-size:.82rem;color:var(--li-blue);font-weight:600">linkedin.com/in/ahmedazhar262</div>
+        <div style="font-size:.78rem;color:var(--li-muted);margin-top:4px">📩 ahmedseraj950@gmail.com</div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
